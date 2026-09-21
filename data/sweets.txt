@@ -1,0 +1,7 @@
+# type;name;weight;sugar%;...
+CHOCOLATE;Milk Delight;12;45;milk;30
+CHOCOLATE;Dark Bar;10;25;dark;70
+CARAMEL;Toffee;8;70;vanilla;false
+CARAMEL;Fruit Drop;6;85;strawberry;true
+COOKIE;Choco Bite;20;35;true
+COOKIE;Butter Round;15;30;false
