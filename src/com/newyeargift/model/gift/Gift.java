@@ -4,6 +4,7 @@ import com.newyeargift.model.sweet.Sweet;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -21,16 +22,15 @@ public class Gift {
         return Collections.unmodifiableList(sweets);
     }
 
-    /**
-     * Calculates the total weight of all sweets in the gift.
-     *
-     * @return total weight in grams
-     */
     public double calculateTotalWeightInGrams() {
         double totalWeight = 0;
         for (Sweet sweet : sweets) {
             totalWeight += sweet.getWeightInGrams();
         }
         return totalWeight;
+    }
+
+    public void sortSweets(Comparator<Sweet> comparator) {
+        sweets.sort(comparator);
     }
 }
