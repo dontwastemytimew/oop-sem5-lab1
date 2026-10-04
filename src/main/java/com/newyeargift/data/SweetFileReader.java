@@ -2,14 +2,16 @@ package com.newyeargift.data;
 
 import com.newyeargift.model.sweet.Sweet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Reads sweets from a text file.
+ * Reads sweets from a text resource file.
  */
 public class SweetFileReader {
 
@@ -21,11 +23,15 @@ public class SweetFileReader {
         this.sweetCreator = sweetCreator;
     }
 
-    public List<Sweet> readSweets(Path file) throws IOException {
+    public List<Sweet> readSweets(InputStream fileStream) throws IOException {
         List<Sweet> sweets = new ArrayList<>();
-        for (String line : Files.readAllLines(file)) {
-            if (isDataLine(line)) {
-                sweets.add(sweetCreator.createSweet(line));
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(fileStream, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (isDataLine(line)) {
+                    sweets.add(sweetCreator.createSweet(line));
+                }
             }
         }
         return sweets;

@@ -8,12 +8,12 @@ import com.newyeargift.service.SugarRangeSearcher;
 import com.newyeargift.service.SweetComparators;
 
 import java.io.IOException;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.util.List;
 
 public class Main {
 
-    private static final Path SWEETS_FILE = Path.of("data/sweets.txt");
+    private static final String SWEETS_RESOURCE = "sweets.txt";
     private static final double MIN_SUGAR_PERCENT = 40;
     private static final double MAX_SUGAR_PERCENT = 60;
 
@@ -35,8 +35,15 @@ public class Main {
     private static Gift createGiftFromFile() throws IOException {
         SweetFileReader reader = new SweetFileReader(new SweetCreator());
         Gift gift = new Gift();
-        for (Sweet sweet : reader.readSweets(SWEETS_FILE)) {
-            gift.addSweet(sweet);
+        try (InputStream fileStream = Main.class.getClassLoader()
+                .getResourceAsStream(SWEETS_RESOURCE)) {
+            if (fileStream == null) {
+                throw new IOException(
+                        "Resource not found: " + SWEETS_RESOURCE);
+            }
+            for (Sweet sweet : reader.readSweets(fileStream)) {
+                gift.addSweet(sweet);
+            }
         }
         return gift;
     }
